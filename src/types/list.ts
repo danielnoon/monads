@@ -31,7 +31,7 @@ export class List<T> implements Functor<T>, Applicative<T> {
   }
 
   apply<U>(f: List<(x: T) => U>, x: List<T>): List<U> {
-    return this.pure(f);
+    return list();
   }
 
   pure<U>(x: U): List<U> {
