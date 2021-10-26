@@ -7,5 +7,5 @@ const appendRecursive =
 
 export const append =
   <T>(xs: List<T> | null) =>
-  (ys: List<T> | null): List<T> =>
-    appendRecursive(xs)(ys) as List<T>;
+  (ys: List<T> | null): List<T> | null =>
+    appendRecursive(xs)(ys);

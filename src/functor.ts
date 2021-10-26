@@ -12,6 +12,6 @@ export interface Functor<T> {
 // }
 
 export const fmap =
-  <T, U, F extends Functor<T>, R extends Functor<U>>(f: (y: T) => U) =>
+  <T, U, F extends Functor<T>>(f: (y: T) => U) =>
   (x: F) =>
     x.map(f);
