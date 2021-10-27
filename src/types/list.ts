@@ -17,21 +17,11 @@ export class List<T> implements Functor<T>, Applicative<T> {
     }
   }
 
-  private applyRecursive<T, U>(
-    f: List<(x: T) => U>,
-    x: List<T>
-  ): List<U> | null {
-    if (x.tail && f.tail) {
-      return append(fmap(f.head)(x) as List<U>)(
-        f.tail.applyRecursive(f.tail, x)
-      );
-    } else {
-      return null;
-    }
-  }
-
-  apply<U>(f: List<(x: T) => U>, x: List<T>): List<U> {
-    return list();
+  apply<U>(fs: List<(x: T) => U>, xs: List<T>): List<U> {
+    // concatMap (\i -> map (\j -> (i, j)) [i+1 .. 4]) [1 .. 4]
+    return concatMap((i: T) => fmap((f: (x: T) => U) => f(i))(fs) as List<U>)(
+      xs
+    ) as List<U>;
   }
 
   pure<U>(x: U): List<U> {
