@@ -10,8 +10,9 @@ export class Just<T> implements Functor<T>, Applicative<T> {
     return new Just(f(this.value));
   }
 
-  apply<U>(f: Just<(x: T) => U>, x: Just<T>): Just<U> {
-    return new Just(f.value(x.value));
+  apply<U>(f: Maybe<(x: T) => U>): Maybe<U> {
+    if (f instanceof Nothing) return new Nothing();
+    return new Just(f.value(this.value));
   }
 
   pure<U>(x: U): Applicative<U> {
@@ -19,7 +20,7 @@ export class Just<T> implements Functor<T>, Applicative<T> {
   }
 }
 
-export class Nothing implements Functor<unknown>, Applicative<unknown> {
+export class Nothing implements Functor<any>, Applicative<any> {
   kind = "Nothing";
 
   map() {
@@ -41,6 +42,6 @@ export function just<T>(value: T): Maybe<T> {
   return new Just(value);
 }
 
-export function nothing<T>(): Maybe<T> {
+export function nothing(): Maybe<any> {
   return new Nothing();
 }

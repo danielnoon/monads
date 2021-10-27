@@ -1,10 +1,5 @@
-import { fmap } from "../functor";
 import { List } from "../types/list";
 import { append } from "./append";
-import { foldr } from "./fold";
-
-// concatMap' f [] = []
-// concatMap' f (x:xs) = f x ++ concatMap' f xs
 
 export const concatMap =
   <A, B>(f: (a: A) => List<B>) =>
