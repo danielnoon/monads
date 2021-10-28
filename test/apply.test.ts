@@ -1,8 +1,8 @@
+import { add } from "../src/functions/arithmetic";
 import { list } from "../src/types/list";
 import { just, nothing } from "../src/types/maybe";
 
 it("should apply a just function", () => {
-  const add = (a: number) => (b: number) => a + b;
   const justFunc = just(1).map(add);
 
   const result = just(2).apply(justFunc);

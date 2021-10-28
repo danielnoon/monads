@@ -1,11 +1,10 @@
 import { Applicative } from "../applicative";
-import { append } from "../functions/append";
 import { concatMap } from "../functions/concatMap";
 import { foldl } from "../functions/fold";
 import { Functor } from "../functor";
 import { Monad } from "../monad";
 
-export class List<T> implements Functor<T>, Applicative<T> {
+export class List<T> implements Functor<T>, Applicative<T>, Monad<T> {
   kind = "List";
 
   constructor(public head: T, public tail: List<T> | null) {}
@@ -26,8 +25,8 @@ export class List<T> implements Functor<T>, Applicative<T> {
     return new List(x, null);
   }
 
-  bind<U>(f: (x: T) => List<U>): List<U> {
-    return concatMap(f)(this) as List<U>;
+  bind<U>(f: (x: T, ret: (x: U) => List<U>) => List<U>): List<U> {
+    return concatMap((x: T) => f(x, this.pure))(this) as List<U>;
   }
 }
 
