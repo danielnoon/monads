@@ -1,7 +1,8 @@
 import { Applicative } from "../applicative";
 import { Functor } from "../functor";
+import { Monad } from "../monad";
 
-export class Just<T> implements Functor<T>, Applicative<T> {
+export class Just<T> implements Functor<T>, Applicative<T>, Monad<T> {
   kind = "Just";
 
   constructor(private value: T) {}
@@ -15,8 +16,12 @@ export class Just<T> implements Functor<T>, Applicative<T> {
     return new Just(f.value(this.value));
   }
 
-  pure<U>(x: U): Applicative<U> {
+  pure<U>(x: U): Maybe<U> {
     return new Just(x);
+  }
+
+  bind<U>(f: (x: T, ret: (x: U) => Maybe<U>) => Maybe<U>): Maybe<U> {
+    return f(this.value, this.pure);
   }
 }
 
@@ -33,6 +38,10 @@ export class Nothing implements Functor<any>, Applicative<any> {
 
   pure<U>(x: U): Applicative<U> {
     return new Just(x);
+  }
+
+  bind() {
+    return new Nothing();
   }
 }
 
